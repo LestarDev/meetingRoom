@@ -53,13 +53,14 @@ function checkLogin(){
 }
 
 router.get('/', function (req, res, next) {
+  res.render('index');
   if(getCookie('login')!=null){
     if(!checkLogin()){
       delete_cookie("login");     
-      res.render('login');
+      window.location.href=`${baseURL}/login`;
     }
   }
-  res.render('index');
+  
   //jako index.ejs
 });
 
