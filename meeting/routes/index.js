@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
+var mysql = require('mysql');
+
 
 const orgId = process.env.ORG_ID;
 const apiKey = process.env.API_KEY;
@@ -11,14 +13,52 @@ if(!orgId || !apiKey || !baseURL || orgId=="xxx" || apiKey=="xxx") {
   process.exit(0);
 }
 
-/**
- * This exmaples creates a new meeting and then allow you to join that meeting as host participant.
- * 1. User makes a POST call to create a new meeting
- * 2. User can make `/host` and `/participant` GET calls to join the meeting
- */
+var con = mysql.createConnection({
+  host: "localhost",
+  user: "yourusername",
+  password: "yourpassword"
+});
 
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
+
+function getCookie(name) {
+  let cookie = {};
+  document.cookie.split(';').forEach(function(el) {
+    let [k,v] = el.split('=');
+    cookie[k.trim()] = v;
+  })
+  return cookie[name];
+}
+
+function set_cookie(name, value) {
+  document.cookie = name +'='+ value +'; Path=/;';
+}
+function delete_cookie(name) {
+  document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function checkLogin(){
+  let l = getCookie("login");
+  l=l.replace('/\s+', '');
+  con.connect(function(err) {
+    if (err) throw err;
+    con.query("SELECT IF ((SELECT login FROM users WHERE login='"+l+"';)="+l+",'1','0');", function (err, result, fields) {
+      if (err) throw err;
+      console.log(result);
+    });
+  });
+}
 
 router.get('/', function (req, res, next) {
+  if(getCookie('login')!=null){
+    if(!checkLogin()){
+      delete_cookie("login");     
+      res.render('login');
+    }
+  }
   res.render('index');
   //jako index.ejs
 });

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dyte Example App - Login</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <div id="root">
+        <img alt="dyte-logo" src="/logo/dyte_logo_white.svg" width="20%">
+        <h2>Welcome to the example app.</h3>
+        <h3>Create a meeting to get started</h2>
+        <form class="pure-form create-meeting-form" action="/login" method="POST">
+            <input class="create-meeting-input" width="40%" type="text" name="login" placeholder="Login" />
+            <input class="create-meeting-input" width="40%" type="password" name="password" placeholder="Password" />
+            <input type="submit" name="logIn" class="pure-button pure-button-primary" />
+        </form>
+    </div>
+  </body>
+</html>
