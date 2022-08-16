@@ -10,7 +10,7 @@ const baseURL = process.env.API_BASE_URL;
 
 if(!orgId || !apiKey || !baseURL || orgId=="xxx" || apiKey=="xxx") {
   console.error("Coś nie działa z plikiem .env, we luknij, tu masz linkacza aby wygenerować.\nhttps://dev.dyte.in/");
-  // process.exit(0);
+  process.exit(0);
 }
 
 var con = mysql.createConnection({
@@ -19,10 +19,10 @@ var con = mysql.createConnection({
   password: "yourpassword"
 });
 
-// con.connect(function(err) {
-//   if (err) {console.log('error', err.message, err.stack)}else
-//   {console.log("Connected!")};
-// });
+con.connect(function(err) {
+  if (err) {console.log('error', err.message, err.stack)}else
+  {console.log("Connected!")};
+});
 
 function getCookie(name) {
   let cookie = {};
