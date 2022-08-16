@@ -44,10 +44,31 @@ function checkLogin(){
   let l = getCookie("login");
   l=l.replace('/\s+', '');
   con.connect(function(err) {
-    if (err) throw err;
-    con.query("SELECT IF ((SELECT login FROM users WHERE login='"+l+"';)="+l+",'1','0');", function (err, result, fields) {
-      if (err) throw err;
-      console.log(result);
+    if (err) {console.log('error', err.message, err.stack)}
+    con.query("SELECT IF ((SELECT login FROM users WHERE login='"+l+"' LIMIT 1;)="+l+",'1','0') as 'isExist';", function (err, result, fields) {
+      if (err) {console.log('error', err.message, err.stack)}else{
+        return result['isExist']=='1';
+      };
+    });
+  });
+}
+
+function loginExist(login, password){
+  con.connect(function(err) {
+    if (err) {console.log('error', err.message, err.stack)}
+    con.query("SELECT IF ((SELECT password FROM users WHERE login='"+login+"' AND password='"+password+"' LIMIT 1;)="+password+",'1','0') as 'isExist';", function (err, result, fields) {
+      if (err) {console.log('error', err.message, err.stack)}else{
+        return result['isExist']=='1';
+      };
+    });
+  });
+}
+
+function createUser(login, password){
+  con.connect(function(err) {
+    if (err) {console.log('error', err.message, err.stack)}
+    con.query("INSERT INTO users (id, login, password) SET (null, '"+login+"', '"+password+"');", function (err, result, fields) {
+      if (err) {console.log('error', err.message, err.stack)}
     });
   });
 }
@@ -65,8 +86,43 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/login', async function(req, res, next){
-  const form = req.body;
-  console.log(form);
+  res.render('login');
+});
+
+router.post('/login1', async function(req, res, next){
+  const form = req.form;
+  const elementsForm = form.elements;
+  // [login, password, submit]
+  const login = elementsForm[0].replace('/\s+', '');
+  const password = elementsForm[1].replace('/\s', '');
+
+  if(loginExist(login, password)){
+    set_cookie('login',login);
+    res.render('index');
+  } else {
+    res.render('login');
+  }
+  
+});
+
+router.post('/register', async function(req, res, next){
+  res.render('register');
+});
+
+router.post('/register1', async function(req, res, next){
+  
+  const form = req.form;
+  const elementsForm = form.elements;
+  // [login, password, submit]
+  const login = elementsForm[0].replace('/\s+', '');
+  const password = elementsForm[1].replace('/\s', '');
+
+  if(!loginExist(login, password)){
+    createUser(login, password);
+    res.render('login');
+  }else{
+    res.render('register');
+  }
 });
 
 router.post('/meeting', async function (req, res, next) {
