@@ -9,12 +9,16 @@
   <body>
     <div id="root">
         <img alt="dyte-logo" src="/logo/dyte_logo_white.svg" width="20%">
-        <h2>Welcome to the example app.</h3>
-        <h3>Create a meeting to get started</h2>
+        <h2>Welcome to the example app.</h2>
+        <div class="button-change"><h3>Log In </h3>
+            <form action="/register" class="pure-form">
+                <input type="submit" name="changeToRegister" value="Register" class="pure-button pure-button-primary">
+            </form>
+        </div>
         <form class="pure-form create-meeting-form" action="/login" method="POST">
             <input class="create-meeting-input" width="40%" type="text" name="login" placeholder="Login" />
             <input class="create-meeting-input" width="40%" type="password" name="password" placeholder="Password" />
-            <input type="submit" name="logIn" class="pure-button pure-button-primary" />
+            <input type="submit" name="logIn" class="pure-button pure-button-primary" value="Log in" />
         </form>
     </div>
   </body>
