@@ -8,6 +8,8 @@ const orgId = process.env.ORG_ID;
 const apiKey = process.env.API_KEY;
 const baseURL = process.env.API_BASE_URL;
 
+//dziala?
+
 if(!orgId || !apiKey || !baseURL || orgId=="xxx" || apiKey=="xxx") {
   console.error("Coś nie działa z plikiem .env, we luknij, tu masz linkacza aby wygenerować.\nhttps://dev.dyte.in/");
   process.exit(0);
