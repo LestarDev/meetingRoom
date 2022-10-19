@@ -1,7 +1,9 @@
 class Player {
-    constructor(nick, HP){
-        this.nick = nick;
+    constructor(ATK, DEF, HP, MOC){
+        this.ATK = ATK;
+        this.DEF = DEF;
         this.HP = HP;
+        this.MOC = MOC;
     }
 }
 
