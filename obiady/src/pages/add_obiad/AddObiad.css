@@ -1,0 +1,21 @@
+.Kalendarz{
+    width: 80vw;
+    height: 80vh;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Kalendarz div{
+    width: 9vw;
+    height: 9vw;
+    border: 1px solid #F58B4D;
+    color: black;
+}
+
+.Kalendarz-blank{
+    background: #A7E1F5;
+}
+
+.zaznaczony{
+    background: #F58B4D;
+}
